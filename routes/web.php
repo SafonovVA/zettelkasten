@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -18,9 +19,8 @@ Route::get('/', function () {
 });
 
 Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');
-
-Auth::routes();
+Route::namespace('Notes')->group(function() {
+    Route::get('/notes', 'NotesController@index')->name('notes');
+});
 
 Route::get('/home', 'HomeController@index')->name('home');

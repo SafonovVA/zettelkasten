@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateNotesTagsTable extends Migration
+class CreateLinkNoteTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,10 @@ class CreateNotesTagsTable extends Migration
      */
     public function up()
     {
-        Schema::create('notes_tags', function (Blueprint $table) {
+        Schema::create('link_note', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('note_id')->constrained();
-            $table->foreignId('tag_id')->constrained();
+            $table->foreignId('link_id')->constrained()->onDelete('cascade');
+            $table->foreignId('note_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -28,6 +28,6 @@ class CreateNotesTagsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('notes_tags');
+        Schema::dropIfExists('link_note');
     }
 }
