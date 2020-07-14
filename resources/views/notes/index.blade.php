@@ -81,8 +81,6 @@
 
     <main class="content-wrapper">
         <div class="container-fluid">
-            <note-ruler></note-ruler>
-            <div class="py-4"></div>
             <note-main></note-main>
         </div>
     </main>

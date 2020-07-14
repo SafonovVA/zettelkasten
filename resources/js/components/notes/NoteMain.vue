@@ -1,5 +1,10 @@
 <template>
     <div id="note-main">
+        <note-ruler :noteHistory="noteHistory"
+                    :currentNoteIdInHistory="currentNoteIdInHistory"
+                    @go-back-to-older-note="backOneNote"
+                    @go-forward-to-newer-note="forwardOneNote"></note-ruler>
+        <div class="py-4"></div>
         <transition name="bounce">
             <div v-if="show && note">
                 <div class="row">
@@ -47,6 +52,7 @@
                 cachedLinks: new Map(),
                 show: true,
                 noteHistory: [],
+                currentNoteIdInHistory: 0,
                 timeOptions: {
                     weekday: 'long',
                     year: 'numeric',
@@ -77,28 +83,35 @@
             afterCreation: function () {
                 eventBus.$on('load-note-by-id', async id => this.getAllNoteContent(id));
             },
-            getAllNoteContent: async function (id) {
+            getAllNoteContent: async function (id, queryFromHistory = false) {
                 if (this.note && this.note.id === +id) {
                     return;
                 }
                 this.show = false;
+
+                await this.getNoteData(id);
+                await this.getNoteLinks(id);
+                await this.getNoteTags(id);
+                setTimeout(() => this.show = true, 1000);
+                if (!queryFromHistory) {
+                    if (this.noteHistory.length !== 0 && (this.currentNoteIdInHistory < this.noteHistory.length - 1)) {
+                        this.noteHistory.length = this.currentNoteIdInHistory + 1;
+                    }
+                    this.currentNoteIdInHistory = this.noteHistory.length;
+                    this.noteHistory.push(id);
+                }
+            },
+            getNoteData: async function (id) {
                 if (this.cachedNotes.has(+id)) {
                     this.note = this.cachedNotes.get(+id);
                 } else {
-                    await this.getNoteData(id);
-                }
-                setTimeout(() => this.show = true, 1000);
-                await this.getNoteLinks(id);
-                await this.getNoteTags(id);
-                this.noteHistory.push(id);
-            },
-            getNoteData: async function (id) {
-                try {
-                    const response = (await axios.get(`notes/note/${id}`)).data;
-                    this.note = response.data;
-                    this.cachedNotes.set(this.note.id, this.note);
-                } catch (error) {
-                    console.log(error.message);
+                    try {
+                        const response = (await axios.get(`notes/note/${id}`)).data;
+                        this.note = response.data;
+                        this.cachedNotes.set(this.note.id, this.note);
+                    } catch (error) {
+                        console.log(error.message);
+                    }
                 }
             },
             getNoteTags: async function (id) {
@@ -133,8 +146,15 @@
                 } else if ((this.note.links)[index].url !== null) {
                     window.open((this.note.links)[index].url);
                 }
-
             },
+            backOneNote: async function () {
+                this.currentNoteIdInHistory--;
+                await this.getAllNoteContent(this.noteHistory[this.currentNoteIdInHistory], true);
+            },
+            forwardOneNote: async function () {
+                this.currentNoteIdInHistory++;
+                await this.getAllNoteContent(this.noteHistory[this.currentNoteIdInHistory], true);
+            }
         }
     }
 </script>
