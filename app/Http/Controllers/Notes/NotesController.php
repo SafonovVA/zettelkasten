@@ -4,6 +4,7 @@
 namespace App\Http\Controllers\Notes;
 
 use App\Http\Controllers\Controller;
+use App\Models\Note;
 use Illuminate\Contracts\Support\Renderable;
 
 class NotesController extends Controller
@@ -25,6 +26,6 @@ class NotesController extends Controller
      */
     public function index()
     {
-        return view('notes.index');
+
     }
 }

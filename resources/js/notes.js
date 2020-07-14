@@ -9,8 +9,6 @@ files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(
 
 //Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 
-import SidePanel from "./components/notes/SidePanel";
 const notes = new Vue({
     el: '#notes',
-    components: SidePanel,
 });
