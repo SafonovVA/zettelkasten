@@ -63,6 +63,7 @@
 </template>
 
 <script>
+    import eventBus from './eventBus';
     export default {
         name: "SidePanelTitle",
         props: ['title', 'id'],
@@ -84,6 +85,7 @@
         },
         methods: {
             getTitlesOrContent: async function () {
+                eventBus.$emit('load-note-by-id', this.id);
                 if (this.isCollapsible === false) {
                     this.collapseNode.classList.add('nav-link-collapsing');
                     try {
@@ -92,7 +94,6 @@
                             this.childTitles = response.data;
                             this.isCollapsible = true;
                         }
-
                     } catch (error) {
                         console.log(error.message)
                     }

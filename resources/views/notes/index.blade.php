@@ -81,13 +81,15 @@
 
     <main class="content-wrapper">
         <div class="container-fluid">
-            {{--<side-panel></side-panel>--}}
+            <note-ruler></note-ruler>
+            <div class="py-4"></div>
+            <note-main></note-main>
         </div>
     </main>
 
-    <main class="py-4">
-        {{--<side-panel></side-panel>--}}
-    </main>
+    {{--<main class="py-4">
+        <side-panel></side-panel>
+    </main>--}}
 
     <footer class="footer">
         <div class="container">

@@ -1,6 +1,7 @@
 <?php
 
 
+use App\Models\Link;
 use App\Models\Note;
 use Illuminate\Database\Seeder;
 
@@ -14,11 +15,11 @@ class LinksNotesSeeder extends Seeder
                 continue;
             }
             $count = rand(1, 3);
-            $noteCount = $notes->count();
+            $linkCount = Link::all()->count();
             $usedId = [$note->id];
             for($i = 0; $i < $count; $i++) {
                 do {
-                    $id = rand(1, $noteCount);
+                    $id = rand(1, $linkCount);
                 } while (in_array($id, $usedId));
                 array_push($usedId, $id);
                 $note->links()->attach($id);

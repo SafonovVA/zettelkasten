@@ -7,6 +7,8 @@
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
 
+$side-panel-width: 400px;
+
 html {
     position: relative;
     min-height: 100%;
@@ -65,7 +67,7 @@ body {
         position: absolute;
         top: 0;
         left: 0;
-        width: 400px;
+        width: $side-panel-width;
         height: calc(100vh - 3.5rem);
         margin-top: 3.5rem;
         background: #343a40;
@@ -79,13 +81,50 @@ body {
     }
 
     .content-wrapper {
-        margin-left: 230px;
+        margin-left: $side-panel-width;
     }
 
     .footer {
-        //width: 100%;
-        width: calc(100% - 230px);
-        margin-left: 230px;
+        width: calc(100% - #{$side-panel-width});
+        margin-left: $side-panel-width;
     }
 }
 
+.notes-ruler-back {
+    display: inline-block;
+    //margin: 40px;
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    border-radius: 50%;
+
+    box-shadow: 0 3px 20px rgba(0,0,0,.25),
+    inset 0 2px 0 rgba(255,255,255,.6),
+    0 2px 0 rgba(0,0,0,.1),
+    inset 0 0 20px rgba(0,0,0,.1);
+
+}
+.notes-ruler-back:after {
+    float: right;
+    content: '\f060';
+    font-family: 'FontAwesome';
+}
+.notes-ruler-forward {
+    display: inline-block;
+    //margin: 40px;
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    border-radius: 50%;
+
+    box-shadow: 0 3px 20px rgba(0,0,0,.25),
+    inset 0 2px 0 rgba(255,255,255,.6),
+    0 2px 0 rgba(0,0,0,.1),
+    inset 0 0 20px rgba(0,0,0,.1);
+
+}
+.notes-ruler-forward:after {
+    float: right;
+    content: '\f061';
+    font-family: 'FontAwesome';
+}
