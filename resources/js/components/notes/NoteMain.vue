@@ -3,7 +3,8 @@
         <note-ruler :noteHistory="noteHistory"
                     :currentNoteIdInHistory="currentNoteIdInHistory"
                     @go-back-to-older-note="backOneNote"
-                    @go-forward-to-newer-note="forwardOneNote"></note-ruler>
+                    @go-forward-to-newer-note="forwardOneNote"
+                    @shift-note-history="shiftNoteHistory"></note-ruler>
         <div class="py-4"></div>
         <transition name="bounce">
             <div v-if="show && note">
@@ -41,9 +42,10 @@
 
 <script type="module">
     import eventBus from "./eventBus";
-
+    import NoteRuler from "./NoteRuler";
     export default {
         name: "NoteMain",
+        components: {NoteRuler},
         data: function () {
             return {
                 note: null,
@@ -97,8 +99,9 @@
                     if (this.noteHistory.length !== 0 && (this.currentNoteIdInHistory < this.noteHistory.length - 1)) {
                         this.noteHistory.length = this.currentNoteIdInHistory + 1;
                     }
-                    this.currentNoteIdInHistory = this.noteHistory.length;
                     this.noteHistory.push(id);
+
+                    this.currentNoteIdInHistory = this.noteHistory.length - 1;
                 }
             },
             getNoteData: async function (id) {
@@ -149,34 +152,21 @@
             },
             backOneNote: async function () {
                 this.currentNoteIdInHistory--;
+                //console.log(this.currentNoteIdInHistory + ' note in history back')
                 await this.getAllNoteContent(this.noteHistory[this.currentNoteIdInHistory], true);
             },
             forwardOneNote: async function () {
                 this.currentNoteIdInHistory++;
+                //console.log(this.currentNoteIdInHistory + ' note in history forward')
                 await this.getAllNoteContent(this.noteHistory[this.currentNoteIdInHistory], true);
+            },
+            shiftNoteHistory: function () {
+                this.noteHistory.shift();
             }
         }
     }
 </script>
 
 <style scoped>
-    .bounce-enter-active {
-        animation: bounce-in .5s;
-    }
 
-    .bounce-leave-active {
-        animation: bounce-in .5s reverse;
-    }
-
-    @keyframes bounce-in {
-        0% {
-            transform: scale(0);
-        }
-        50% {
-            transform: scale(1.5);
-        }
-        100% {
-            transform: scale(1);
-        }
-    }
 </style>

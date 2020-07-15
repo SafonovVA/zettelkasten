@@ -1,4 +1,5 @@
-@import url(https://fonts.googleapis.com/css?family=Nunito);@charset "UTF-8";
+@charset "UTF-8";
+@import url(https://fonts.googleapis.com/css?family=Nunito);
 
 /*!
  * Bootstrap v4.5.0 (https://getbootstrap.com/)
@@ -11035,5 +11036,42 @@ body {
   float: right;
   content: "\F061";
   font-family: "FontAwesome";
+}
+
+.bounce-enter-active {
+  -webkit-animation: bounce-in 0.5s;
+          animation: bounce-in 0.5s;
+}
+
+.bounce-leave-active {
+  animation: bounce-in 0.5s reverse;
+}
+
+@-webkit-keyframes bounce-in {
+  0% {
+    transform: scale(0);
+  }
+
+  50% {
+    transform: scale(1.5);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes bounce-in {
+  0% {
+    transform: scale(0);
+  }
+
+  50% {
+    transform: scale(1.5);
+  }
+
+  100% {
+    transform: scale(1);
+  }
 }
 

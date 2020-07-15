@@ -19,14 +19,15 @@
         },
         watch: {
             noteHistory: function () {
-                console.log(this.currentNoteIdInHistory)
                 if (this.currentNoteIdInHistory > 0) {
                     this.disabledBack = false;
                 }
-                if (this.currentNoteIdInHistory === this.noteIdInHistoryLimit) {
-                    this.noteHistory.shift();
+                if (this.noteHistory.length > this.noteIdInHistoryLimit) {
+                    this.$emit('shift-note-history');
                 }
-                console.log(this.noteHistory)
+                if (this.currentNoteIdInHistory + 1 === this.noteHistory.length) {
+                    this.disabledForward = true;
+                }
             },
         },
         methods: {
@@ -39,7 +40,7 @@
             },
             goForward: function () {
                 this.disabledBack = false;
-                if ((this.currentNoteIdInHistory + 1) === this.noteHistory.length - 1) {
+                if (this.currentNoteIdInHistory + 1 === this.noteHistory.length - 1) {
                     this.disabledForward = true;
                 }
                 this.$emit('go-forward-to-newer-note');
