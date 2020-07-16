@@ -15,9 +15,13 @@ class CreateNotesTable extends Migration
     {
         Schema::create('notes', function (Blueprint $table) {
             $table->id();
+            $table->string('parent_number')->nullable()->default(null);
+            $table->integer('self_number')->nullable()->default(null);
+            $table->string('common_number')->nullable()->default(null);
             $table->string('title');
             $table->text('content');
             $table->foreignId('parent_id')->nullable()->constrained('notes')->onDelete('cascade');
+            $table->boolean('has_child')->default(false);
             $table->foreignId('user_id')->constrained();
             $table->timestamps();
         });

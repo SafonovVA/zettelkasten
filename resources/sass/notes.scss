@@ -1,5 +1,6 @@
 // Fonts
-@import url('https://fonts.googleapis.com/css?family=Nunito');
+//@import url('https://fonts.googleapis.com/css?family=Nunito');
+@import "node_modules/font-awesome/scss/font-awesome";
 
 // Variables
 @import 'variables';
@@ -28,28 +29,55 @@ body {
     background-color: #ccc;
 }
 
-.nav-link:hover {
+/*.nav-link:hover {
+    transition: all 0.4s;
+    cursor: default;
+}*/
+.nav-link-self:hover {
+    color: rgba(255, 255, 255, 0.5) !important;
+}
+
+.nav-link-parent {
+    width: 5%;
+    height: 5px;
+    float: left;
+}
+
+.nav-link-text-self {
+    width: 93%;
+    float: left;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+.nav-link-parent:hover {
+    color: $white;
     transition: all 0.4s;
     cursor: default;
 }
 
-.nav-link-collapse:after {
-    float: right;
+.nav-link-text:hover {
+    color: $white;
+    transition: all 0.4s;
+    cursor: default;
+}
+
+/*.nav-link-collapse:after {
+    float: left;
     content: '\f0da';
     font-family: 'FontAwesome';
 }
 
 .nav-link-collapsing:after {
-    float: right;
+    float: left;
     content: '\f252';
     font-family: 'FontAwesome';
 }
 
 .nav-link-show:after {
-    float: right;
+    float: left;
     content: '\f0d7';
     font-family: 'FontAwesome';
-}
+}*/
 
 .nav-item {
     ul.nav-second-level {

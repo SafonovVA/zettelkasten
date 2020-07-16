@@ -9,7 +9,7 @@ class MainController extends Controller
 {
     public function index($parentId = null)
     {
-        $notesTitles = Note::where('parent_id', $parentId)->pluck('title', 'id');
+        $notesTitles = Note::where('parent_id', $parentId)->get(['title', 'id', 'has_child', 'common_number']);
         //dd($notesTitles);
         if ($notesTitles !== null) {
             if ($parentId === null) {

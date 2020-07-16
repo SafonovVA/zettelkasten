@@ -95,8 +95,9 @@
                 await this.getNoteLinks(id);
                 await this.getNoteTags(id);
                 setTimeout(() => this.show = true, 1000);
-                if (!queryFromHistory) {
-                    if (this.noteHistory.length !== 0 && (this.currentNoteIdInHistory < this.noteHistory.length - 1)) {
+
+                if (queryFromHistory === false) {
+                    if (this.noteHistory.length > 0 && (this.currentNoteIdInHistory < this.noteHistory.length - 1)) {
                         this.noteHistory.length = this.currentNoteIdInHistory + 1;
                     }
                     this.noteHistory.push(id);
@@ -109,7 +110,7 @@
                     this.note = this.cachedNotes.get(+id);
                 } else {
                     try {
-                        const response = (await axios.get(`notes/note/${id}`)).data;
+                        const response = (await axios.get(`/notes/note/${id}`)).data;
                         this.note = response.data;
                         this.cachedNotes.set(this.note.id, this.note);
                     } catch (error) {
@@ -122,7 +123,7 @@
                     this.note.tags = this.cachedTags.get(+id);
                 } else {
                     try {
-                        const response = (await axios.get(`notes/tags/${id}`)).data;
+                        const response = (await axios.get(`/notes/tags/${id}`)).data;
                         this.note.tags = response.data;
                         this.cachedTags.set(this.note.id, this.note.tags);
                     } catch (error) {
@@ -135,7 +136,7 @@
                     this.note.links = this.cachedLinks.get(+id);
                 } else {
                     try {
-                        const response = (await axios.get(`notes/links/${id}`)).data;
+                        const response = (await axios.get(`/notes/links/${id}`)).data;
                         this.note.links = response.data;
                         this.cachedLinks.set(this.note.id, this.note.links);
                     } catch (error) {
@@ -152,12 +153,10 @@
             },
             backOneNote: async function () {
                 this.currentNoteIdInHistory--;
-                //console.log(this.currentNoteIdInHistory + ' note in history back')
                 await this.getAllNoteContent(this.noteHistory[this.currentNoteIdInHistory], true);
             },
             forwardOneNote: async function () {
                 this.currentNoteIdInHistory++;
-                //console.log(this.currentNoteIdInHistory + ' note in history forward')
                 await this.getAllNoteContent(this.noteHistory[this.currentNoteIdInHistory], true);
             },
             shiftNoteHistory: function () {

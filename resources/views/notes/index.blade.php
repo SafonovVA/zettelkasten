@@ -12,7 +12,6 @@
 
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
-
     <link href="{{ asset('css/notes.css') }}" rel="stylesheet">
 </head>
 <body>
@@ -70,7 +69,7 @@
                 @endguest
             </ul>
             <!--Sidebar-->
-            <side-panel :notes-titles='@json($notesTitles)'></side-panel>
+            <side-panel :notes-titles='@json($notesTitles)' v-if="showSidePanel"></side-panel>
             {{--<form class="form-inline ml-auto mt-2 mt-md-0">
                 <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
                 <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>

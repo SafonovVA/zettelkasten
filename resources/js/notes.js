@@ -9,4 +9,7 @@ files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(
 
 const notes = new Vue({
     el: '#notes',
+    data: {
+        showSidePanel: true,
+    }
 });

@@ -1,95 +1,74 @@
 <template>
     <div>
-        <span class="nav-link"
+        <span class="nav-link nav-link-self"
               :id="`collapseItem${id}`"
-              :data-toggle="isCollapsible ? 'collapse' : false"
-              :data-target="isCollapsible ? `#collapseSubItems${id}` : false"
-              :aria-controls="isCollapsible ? `collapseSubItems${id}` : false"
-              aria-expanded="false"
-              @click="getTitlesOrContent">
-            <span class="nav-link-text">{{ title }}</span>
+              aria-expanded="false">
+              <span class="nav-link-parent"
+                    :id="`collapseParentItem${id}`"
+                    :class="{'nav-link-collapse': hasChild}"
+                    v-html="icon"
+                    :data-toggle="isCollapsible ? 'collapse' : false"
+                    :data-target="isCollapsible ? `#collapseSubItems${id}` : false"
+                    :aria-controls="isCollapsible ? `collapseSubItems${id}` : false"
+                    @click="getTitles"></span>
+              <span class="nav-link-text nav-link-text-self"
+                    @click="getNoteContent">{{commonNumber}}. {{ title }}</span>
         </span>
+<!--        :class="{ show: isShowing }"-->
         <ul v-if="isCollapsible"
             class="nav-second-level collapse"
-            :class="{ show: isShow }"
+
             :id="`collapseSubItems${id}`"
             :data-parent="`#collapseItem${id}`">
             <li class="nav-item" v-for="(childTitle, childId) of childTitles" :key="childId">
-
-                <side-panel-title :title="childTitle" :id="childId"></side-panel-title>
+                <side-panel-title :title="childTitle.title"
+                                  :id="childTitle.id"
+                                  :hasChild="childTitle['has_child']"
+                                  :commonNumber="childTitle['common_number']"></side-panel-title>
             </li>
         </ul>
-        <!--<a
-            class="nav-link nav-link-collapse"
-            href="#"
-            data-toggle="collapse"
-            data-target="#collapseSubItems4"
-            aria-controls="collapseSubItems4"
-            aria-expanded="false"
-        >Item 4</a>
-        <ul class="nav-second-level collapse" id="collapseSubItems4" data-parent="#navAccordion">
-            <li class="nav-item">
-                <a class="nav-link" href="#">
-                    <span class="nav-link-text">Item 4.1</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">
-                    <span class="nav-link-text">Item 4.2</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">
-                    <span class="nav-link-text">Item 4.2</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">
-                    <span class="nav-link-text">Item 4.2</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">
-                    <span class="nav-link-text">Item 4.2</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">
-                    <span class="nav-link-text">Item 4.2</span>
-                </a>
-            </li>
-        </ul>-->
     </div>
 </template>
 
 <script>
     import eventBus from './eventBus';
+    const icons = {
+        faChevronRight: `<i class="fa fa-chevron-right" aria-hidden="true"></i>`,
+        faChevronDown: `<i class="fa fa-chevron-down" aria-hidden="true"></i>`,
+        faDownload: `<i class="fa fa-cog fa-spin fa-1x fa-fw"></i><span class="sr-only"></span>`,
+    };
     export default {
         name: "SidePanelTitle",
-        props: ['title', 'id'],
-        data: function() {
+        props: ['title', 'id', 'hasChild', 'commonNumber'],
+        data: function () {
             return {
                 childTitles: {},
                 isCollapsible: false,
-                isShow: false,
+                isShowing: false,
                 collapseNode: null,
+                icon: this.hasChild ? icons.faChevronRight : '',
+                icons: {
+                    faChevronRight: `<i class="fa fa-chevron-right" aria-hidden="true"></i>`,
+                    faChevronDown: `<i class="fa fa-chevron-down" aria-hidden="true"></i>`,
+                    faDownload: `<i class="fa fa-cog fa-spin fa-1x fa-fw"></i><span class="sr-only"></span>`,
+                }
             };
         },
-        mounted() {
-            this.collapseNode = document.querySelector(`#collapseItem${this.id}`);
-        },
-        updated: function() {
-            this.collapseNode.classList.remove('nav-link-collapse')
-            this.collapseNode.classList.add('nav-link-show');
-            $('#collapseSubItems' + this.id).collapse('show');
+        watch: {
+            isShowing: function (newVal, oldVal) {
+                this.icon = newVal === true ? icons.faChevronDown : icons.faChevronRight;
+                setTimeout(() => $('#collapseSubItems' + this.id).collapse('toggle'));
+            }
         },
         methods: {
-            getTitlesOrContent: async function () {
+            getNoteContent: async function () {
                 eventBus.$emit('load-note-by-id', this.id);
+            },
+            getTitles: async function () {
                 if (this.isCollapsible === false) {
-                    this.collapseNode.classList.add('nav-link-collapsing');
+                    this.icon = icons.faDownload;
                     try {
-                        const response = (await axios.get(`notes/${this.id}`)).data;
+                        const response = (await axios.get(`/notes/${this.id}`)).data;
                         if (response.data !== null) {
                             this.childTitles = response.data;
                             this.isCollapsible = true;
@@ -97,12 +76,9 @@
                     } catch (error) {
                         console.log(error.message)
                     }
-                    this.collapseNode.classList.remove('nav-link-collapsing');
-                } else {
-                    this.collapseNode.classList.toggle('nav-link-collapse')
-                    this.collapseNode.classList.toggle('nav-link-show');
                 }
-            },
+                this.isShowing = !this.isShowing;
+            }
         }
     }
 </script>
