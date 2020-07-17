@@ -2,6 +2,10 @@
     <div>
         <button class="notes-ruler-back" @click="goBack" :disabled="disabledBack"></button>
         <button class="notes-ruler-forward" @click="goForward" :disabled="disabledForward"></button>
+        <router-link :to="{name: 'create'}">Create</router-link>
+        <div class="container">
+            <router-view></router-view>
+        </div>
     </div>
 </template>
 

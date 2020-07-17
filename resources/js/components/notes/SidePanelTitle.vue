@@ -33,7 +33,7 @@
 <script>
     import eventBus from './eventBus';
     const icons = {
-        faChevronRight: `<i class="fa fa-chevron-right" aria-hidden="true"></i>`,
+        faChevronRight: `<i class="fa fa-chevron-right" aria-hidden="true" style="padding-left: 5px;"></i>`,
         faChevronDown: `<i class="fa fa-chevron-down" aria-hidden="true"></i>`,
         faDownload: `<i class="fa fa-cog fa-spin fa-1x fa-fw"></i><span class="sr-only"></span>`,
     };

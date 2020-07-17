@@ -34,7 +34,7 @@
             </div>
         </transition>
 
-        <div v-if="!note">
+        <div v-if="note === null">
             Nihuya
         </div>
     </div>
@@ -110,7 +110,7 @@
                     this.note = this.cachedNotes.get(+id);
                 } else {
                     try {
-                        const response = (await axios.get(`/notes/note/${id}`)).data;
+                        const response = (await axios.get(`/notes/notes/${id}`)).data;
                         this.note = response.data;
                         this.cachedNotes.set(this.note.id, this.note);
                     } catch (error) {
@@ -123,7 +123,7 @@
                     this.note.tags = this.cachedTags.get(+id);
                 } else {
                     try {
-                        const response = (await axios.get(`/notes/tags/${id}`)).data;
+                        const response = (await axios.get(`/notes/notes/tags/${id}`)).data;
                         this.note.tags = response.data;
                         this.cachedTags.set(this.note.id, this.note.tags);
                     } catch (error) {
@@ -136,7 +136,7 @@
                     this.note.links = this.cachedLinks.get(+id);
                 } else {
                     try {
-                        const response = (await axios.get(`/notes/links/${id}`)).data;
+                        const response = (await axios.get(`/notes/notes/links/${id}`)).data;
                         this.note.links = response.data;
                         this.cachedLinks.set(this.note.id, this.note.links);
                     } catch (error) {

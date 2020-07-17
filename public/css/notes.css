@@ -13996,18 +13996,23 @@ body {
     cursor: default;
 }*/
 
-.nav-link-self:hover {
+/*.nav-link-self:hover {
+    color: rgba(255, 255, 255, 0.5) !important;
+}*/
+
+.nav-link-self {
   color: rgba(255, 255, 255, 0.5) !important;
 }
 
 .nav-link-parent {
-  width: 5%;
+  width: 7%;
   height: 5px;
+  padding-left: 5px;
   float: left;
 }
 
 .nav-link-text-self {
-  width: 93%;
+  width: 91%;
   float: left;
   border-bottom: 1px solid rgba(255, 255, 255, 0.5);
 }
@@ -14073,9 +14078,13 @@ body {
     margin-left: 400px;
   }
 
-  .footer {
-    width: calc(100% - 400px);
+  .footer-sidenav {
+    width: calc(100% - 400px) !important;
     margin-left: 400px;
+  }
+
+  .footer {
+    width: 100%;
   }
 }
 
